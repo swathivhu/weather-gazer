@@ -26,8 +26,8 @@ export default function WeatherDisplay({ data }: WeatherDisplayProps) {
                 <ForecastCard key={day.date_epoch} day={day} />
               ))}
             </div>
-            <div className="pt-4">
-                <h3 className="text-xl font-semibold text-white text-center mb-4">3-Day Max Temperature</h3>
+            <div className="mt-6 bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-xl p-4 sm:p-6">
+                <h3 className="text-xl font-semibold text-white text-center mb-4">3-Day Temperature Range</h3>
                 <ForecastChart forecast={data.forecast} />
             </div>
           </div>
