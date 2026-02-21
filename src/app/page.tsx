@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -32,10 +32,10 @@ export default function Home() {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  const handleSearch = useCallback(async (location: string) => {
     setLoading(true);
     setWeatherData(null);
-    const result = await getWeatherData(values.location);
+    const result = await getWeatherData(location);
     setLoading(false);
 
     if (result.success) {
@@ -48,6 +48,27 @@ export default function Home() {
         description: result.error,
       });
     }
+  }, [form, toast]);
+  
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          handleSearch(`${latitude},${longitude}`);
+        },
+        () => {
+          toast({
+            description: "Could not automatically fetch your location. Please search manually.",
+          });
+        }
+      );
+    }
+  }, [handleSearch, toast]);
+
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    handleSearch(values.location);
   }
 
   return (
@@ -102,7 +123,7 @@ export default function Home() {
           <div className="flex justify-center items-center text-center h-96 glass-card p-8">
             <div>
               <h2 className="text-2xl font-semibold text-white">Welcome to WeatherGazer</h2>
-              <p className="text-white/80 mt-2">Enter a location above to get started.</p>
+              <p className="text-white/80 mt-2">Enter a location above to get started, or allow location access.</p>
             </div>
           </div>
         )}
