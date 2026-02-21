@@ -13,6 +13,7 @@ import { getWeatherData } from "@/app/actions";
 import type { WeatherData } from "@/types/weather";
 import WeatherDisplay from "@/components/weather/WeatherDisplay";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 const formSchema = z.object({
   location: z.string().min(2, {
@@ -74,7 +75,10 @@ export default function Home() {
   return (
     <main className="flex min-h-screen w-full flex-col items-center justify-center p-4 sm:p-8">
       <div className="w-full max-w-4xl">
-        <header className="mb-8 text-center">
+        <header className="mb-8 text-center relative">
+          <div className="absolute top-0 right-0 z-10">
+            <ThemeToggle />
+          </div>
           <h1 className="text-4xl sm:text-5xl font-bold text-white drop-shadow-lg">WeatherGazer</h1>
           <p className="text-white/80 mt-2">Your window to the weather</p>
         </header>
