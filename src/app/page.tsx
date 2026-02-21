@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
@@ -115,7 +116,10 @@ export default function Home() {
         
         {loading && (
           <div className="flex justify-center items-center h-96 glass-card">
-            <Loader2 className="h-12 w-12 animate-spin text-white" />
+            <div className="flex flex-col items-center gap-4">
+              <Loader2 className="h-12 w-12 animate-spin text-white" />
+              <p className="text-white/80">Fetching weather...</p>
+            </div>
           </div>
         )}
 
