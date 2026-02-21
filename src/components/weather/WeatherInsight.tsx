@@ -1,4 +1,4 @@
-import { Lightbulb, Sun, Wind, Droplets, Umbrella, Thermometer } from "lucide-react";
+import { Lightbulb, Sun, Wind, Droplets, Umbrella, Thermometer, Zap } from "lucide-react";
 import type { WeatherData } from "@/types/weather";
 
 type WeatherInsightProps = {
@@ -7,27 +7,31 @@ type WeatherInsightProps = {
 
 const getInsight = (current: WeatherData["current"]): { message: string; icon: React.ElementType } => {
     const { temp_c, uv, humidity, wind_kph, condition } = current;
+    const conditionText = condition.text.toLowerCase();
   
-    if (uv > 8) {
-      return { message: "High UV index. Sunscreen and a hat are a must!", icon: Sun };
+    if (uv >= 8) {
+      return { message: "High UV warning. Sunscreen and a hat are a must!", icon: Sun };
     }
-    if (temp_c > 30) {
-      return { message: "It's very hot! Stay hydrated and avoid direct sun.", icon: Thermometer };
+    if (temp_c >= 38) {
+      return { message: "Extreme heat alert! Stay hydrated and find shade.", icon: Thermometer };
     }
-    if (condition.text.toLowerCase().includes("rain") || condition.text.toLowerCase().includes("drizzle") || condition.text.toLowerCase().includes("shower")) {
-      return { message: "Rain is expected. Don't forget your umbrella!", icon: Umbrella };
+    if (wind_kph >= 40) {
+      return { message: "Strong wind warning. Secure loose items outdoors.", icon: Wind };
     }
-    if (wind_kph > 30) {
-      return { message: "It's quite windy today. Hold onto your hat!", icon: Wind };
+    if (conditionText.includes("storm") || conditionText.includes("thunder")) {
+      return { message: "Storm alert! It's safer to stay indoors.", icon: Zap };
     }
-    if (humidity > 80) {
-      return { message: "High humidity today, it might feel warmer.", icon: Droplets };
+    if (conditionText.includes("heavy rain")) {
+      return { message: "Heavy rain is expected. Be cautious of slippery roads.", icon: Umbrella };
     }
-     if (temp_c < 5) {
-      return { message: "Feeling chilly! Best to wear some warm layers.", icon: Thermometer };
+    if (conditionText.includes("rain") || conditionText.includes("drizzle") || conditionText.includes("shower")) {
+      return { message: "Light rain is expected. Don't forget your umbrella!", icon: Umbrella };
+    }
+    if (humidity >= 85) {
+      return { message: "High humidity today. It will feel warmer than it is.", icon: Droplets };
     }
   
-    return { message: "Weather looks calm. A great day to be outside!", icon: Lightbulb };
+    return { message: "The weather is pleasant. A great day to be outside!", icon: Lightbulb };
 };
 
 export default function WeatherInsight({ current }: WeatherInsightProps) {
