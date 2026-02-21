@@ -43,6 +43,22 @@ export interface WeatherData {
   };
 }
 
+export interface Hour {
+  time_epoch: number;
+  time: string;
+  temp_c: number;
+  is_day: number;
+  condition: {
+    text: string;
+    icon: string;
+    code: number;
+  };
+  wind_kph: number;
+  precip_mm: number;
+  humidity: number;
+  chance_of_rain: number;
+}
+
 export interface ForecastDay {
   date: string;
   date_epoch: number;
@@ -80,7 +96,7 @@ export interface ForecastDay {
     moon_phase: string;
     moon_illumination: string;
   };
-  hour: any[]; // Not needed for this app
+  hour: Hour[];
 }
 
 export interface WeatherError {
