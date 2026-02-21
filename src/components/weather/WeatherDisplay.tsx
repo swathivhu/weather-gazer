@@ -4,6 +4,7 @@ import CurrentWeatherCard from "./CurrentWeatherCard";
 import HourlyForecast from "./HourlyForecast";
 import DailyForecastList from "./DailyForecastList";
 import WeatherDetails from "./WeatherDetails";
+import WeatherInsight from "./WeatherInsight";
 
 type WeatherDisplayProps = {
   data: WeatherData;
@@ -19,6 +20,7 @@ export default function WeatherDisplay({ data }: WeatherDisplayProps) {
         </TabsList>
         <TabsContent value="current">
           <CurrentWeatherCard current={data.current} location={data.location} />
+          <WeatherInsight current={data.current} />
         </TabsContent>
         <TabsContent value="forecast">
           <div className="flex flex-col gap-6">
