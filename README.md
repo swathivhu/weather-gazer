@@ -38,8 +38,6 @@ npm install
 
 npm run dev
 
-Create a `.env.local` file:
-
 
 ---
 
