@@ -35,6 +35,7 @@ Create a `.env.local` file:
 ## 📦 Installation
 
 npm install
+
 npm run dev
 
 Create a `.env.local` file:
