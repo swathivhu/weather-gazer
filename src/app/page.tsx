@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
@@ -24,7 +23,7 @@ const formSchema = z.object({
 
 export default function Home() {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -50,7 +49,7 @@ export default function Home() {
         description: result.error,
       });
     }
-  }, [form, toast]);
+  }, [form, toast, setLoading, setWeatherData]);
   
   useEffect(() => {
     if (navigator.geolocation) {
@@ -60,13 +59,19 @@ export default function Home() {
           handleSearch(`${latitude},${longitude}`);
         },
         () => {
+          setLoading(false);
           toast({
             description: "Could not automatically fetch your location. Please search manually.",
           });
         }
       );
+    } else {
+      setLoading(false);
+       toast({
+        description: "Geolocation not supported. Please search manually.",
+      });
     }
-  }, [handleSearch, toast]);
+  }, [handleSearch, toast, setLoading]);
 
 
   function onSubmit(values: z.infer<typeof formSchema>) {
